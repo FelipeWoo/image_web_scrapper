@@ -54,10 +54,14 @@ def extract_images_url(url):
         return None
     
 def save_images(folder_path, img_urls, title):
+
+    #try:
         
     for index,img_url in enumerate(img_urls):
         # Send a GET request to the image URL
         img_response = requests.get(img_url)
+        #img_response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
+
         
         # Extract the filename from the image URL
         filename = os.path.basename(img_url)
@@ -70,12 +74,25 @@ def save_images(folder_path, img_urls, title):
 
         # Construct the file path to save the image
         file_path = os.path.join(folder_path, new_filename)
+
+        # Skip saving if the file already exists
+        if os.path.exists(file_path):
+            continue
         
         # Save the image file
         with open(file_path, 'wb') as f:
             f.write(img_response.content)  
-
     print("Images saved successfully!")
+
+"""     except requests.exceptions.RequestException as e:
+        print(f"An error occurred during the request: {e}")
+        return None
+    
+    except (AttributeError, TypeError) as e:
+        print(f"An error occurred during title extraction: {e}")
+        return None """
+
+    
 
 
 
