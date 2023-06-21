@@ -55,44 +55,44 @@ def extract_images_url(url):
     
 def save_images(folder_path, img_urls, title):
 
-    #try:
+    try:
         
-    for index,img_url in enumerate(img_urls):
-        # Send a GET request to the image URL
-        img_response = requests.get(img_url)
-        #img_response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
+        for index,img_url in enumerate(img_urls):
+            # Send a GET request to the image URL
+            img_response = requests.get(img_url)
+            #img_response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
 
-        
-        # Extract the filename from the image URL
-        filename = os.path.basename(img_url)
-        sanitized_filename = sanitize_filename(filename)
+            
+            # Extract the filename from the image URL
+            filename = os.path.basename(img_url)
+            sanitized_filename = sanitize_filename(filename)
 
-        # Extract the file extension using regular expressions
-        extension = re.search(r'\.([^.]+)$', sanitized_filename).group(1)
-        
-        new_filename = f"{title}_{index+1}.{extension}"
+            # Extract the file extension using regular expressions
+            extension = re.search(r'\.([^.]+)$', sanitized_filename).group(1)
+            
+            new_filename = f"{title}_{index+1}.{extension}"
 
-        # Construct the file path to save the image
-        file_path = os.path.join(folder_path, new_filename)
+            # Construct the file path to save the image
+            file_path = os.path.join(folder_path, new_filename)
 
-        # Skip saving if the file already exists
-        if os.path.exists(file_path):
-            continue
-        
-        # Save the image file
-        with open(file_path, 'wb') as f:
-            f.write(img_response.content)  
-    print("Images saved successfully!")
+            # Skip saving if the file already exists
+            if os.path.exists(file_path):
+                continue
+            
+            # Save the image file
+            with open(file_path, 'wb') as f:
+                f.write(img_response.content)  
+    
 
-"""     except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException as e:
         print(f"An error occurred during the request: {e}")
         return None
     
     except (AttributeError, TypeError) as e:
         print(f"An error occurred during title extraction: {e}")
-        return None """
+        return None
 
-    
+    print("Images saved successfully!")
 
 
 
