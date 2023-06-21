@@ -24,9 +24,9 @@ The Image Web Scraper is a Python script that allows you to collect all the imag
 ## Usage
 
 1. Install the required libraries by running the following command:
-
+```
     pip install requests beautifulsoup4
-
+```
 
 2. Clone the repository or download the Python script.
 
@@ -35,9 +35,9 @@ The Image Web Scraper is a Python script that allows you to collect all the imag
 4. Set the `save_folder` variable to specify the folder where you want to save the downloaded images.
 
 5. Run the script using the following command:
-
+```
     python image_scraper.py
-
+```
 
 6. The script will extract the image URLs from the specified website and save them in the designated folder. Existing images will be skipped to avoid duplicates.
 
