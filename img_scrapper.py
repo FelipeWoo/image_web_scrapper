@@ -26,14 +26,11 @@ def extract_images_url(url):
         # Parse the HTML content
         soup = BeautifulSoup(response.content, 'html.parser')
 
-        # Find the div element with class "releases"
-        releases_div = soup.find('div', class_='releases')
-
-        # Find the h1 tag within the releases_div
-        h1_tag = releases_div.find('h1')
-        
+        # Find the title tag
+        title_tag = soup.find('title')
+    
         # Extract the title text
-        title = h1_tag.text.strip()
+        title = title_tag.text.strip()
         
         # Find all image tags
         img_tags = soup.find_all('img')
