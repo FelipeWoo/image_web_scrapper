@@ -22,7 +22,7 @@ def extract_images_url(url):
         # Send a GET request to the URL
         response = requests.get(url, headers=headers)
         response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
-            
+        
         # Parse the HTML content
         soup = BeautifulSoup(response.content, 'html.parser')
 
@@ -36,17 +36,8 @@ def extract_images_url(url):
         img_tags = soup.find_all('img')
         
         # Extract image URLs
-        image_urls = []
-        for img_tag in img_tags:
-            # Get the 'src' attribute of the image tag
-            img_url = img_tag.get('src')
-            
-            # Make the URL absolute by joining it with the base URL
-            img_url = urljoin(url, img_url)
-            
-            # Add the absolute URL to the list of image URLs
-            image_urls.append(img_url)
-
+        image_urls = [urljoin(url, img_tag.get('src')) for img_tag in img_tags]
+        
         return title, image_urls
 
     except requests.exceptions.RequestException as e:
@@ -54,15 +45,12 @@ def extract_images_url(url):
         return None
     
 def save_images(folder_path, img_urls, title):
-
     try:
-        
-        for index,img_url in enumerate(img_urls):
+        for index, img_url in enumerate(img_urls):
             # Send a GET request to the image URL
             img_response = requests.get(img_url)
-            #img_response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
+            img_response.raise_for_status()  # Raise an exception if a HTTP error occurred (e.g., 404, 500)
 
-            
             # Extract the filename from the image URL
             filename = os.path.basename(img_url)
             sanitized_filename = sanitize_filename(filename)
@@ -82,19 +70,12 @@ def save_images(folder_path, img_urls, title):
             # Save the image file
             with open(file_path, 'wb') as f:
                 f.write(img_response.content)  
-    
 
+        print("Images saved successfully!")
     except requests.exceptions.RequestException as e:
         print(f"An error occurred during the request: {e}")
-        return None
-    
     except (AttributeError, TypeError) as e:
         print(f"An error occurred during title extraction: {e}")
-        return None
-
-    print("Images saved successfully!")
-
-
 
 
 # Example usage
@@ -107,6 +88,12 @@ os.makedirs(save_folder, exist_ok=True)
 title, image_urls = extract_images_url(webpage_url)
 
 if title and image_urls is not None:
+
+
+    #An error occurred during the request: 403 Client Error: Forbidden for url: https://tumanhwas.com/logo3.png
+    image_urls.remove('https://tumanhwas.com/logo3.png')
+
     save_images(save_folder, image_urls, title)
+
 
 
