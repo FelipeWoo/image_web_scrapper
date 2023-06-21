@@ -78,22 +78,24 @@ def save_images(folder_path, img_urls, title):
         print(f"An error occurred during title extraction: {e}")
 
 
-# Example usage
-webpage_url = 'https://tumanhwas.com/news/reborn-ranker-gravity-user-1.00'  # Replace with the URL of the webpage you want to extract images from
-save_folder = 'images'  # Replace with the desired folder name
 
-# Create the folder if it doesn't exist
-os.makedirs(save_folder, exist_ok=True)
+if __name__ == '__main__':
 
-title, image_urls = extract_images_url(webpage_url)
+    # Example usage
+    webpage_url = 'https://webpage.com'  # Replace with the URL of the webpage you want to extract images from
+    save_folder = 'images'  # Replace with the desired folder name
 
-if title and image_urls is not None:
+    # Create the folder if it doesn't exist
+    os.makedirs(save_folder, exist_ok=True)
 
+    title, image_urls = extract_images_url(webpage_url)
 
-    #An error occurred during the request: 403 Client Error: Forbidden for url: https://tumanhwas.com/logo3.png
-    image_urls.remove('https://tumanhwas.com/logo3.png')
-
-    save_images(save_folder, image_urls, title)
+    if title and image_urls is not None:
+        #An error occurred during the request: 403 Client Error: Forbidden for url: 'https://webpage.com/logo.png'
+        #Remove the image from the list
+        image_urls.remove('https://webpage.com/logo.png')
+        #Save the images to the specified folder
+        save_images(save_folder, image_urls, title)
 
 
 
